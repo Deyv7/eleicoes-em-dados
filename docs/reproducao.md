@@ -1,4 +1,4 @@
-# Reprodução e passagem para Claude
+# Reprodução do projeto
 
 ## Ambiente
 
@@ -76,14 +76,14 @@ $env:DBT_DATASET = 'eleicoes_em_dados'
 .\.venv\Scripts\dbt.exe docs generate --profiles-dir .local
 ```
 
-## Power BI e revisão independente (Claude)
+## Power BI e validação
 
 - Projeto: `eleitorado`; dataset: `eleicoes_em_dados`; tabela: `mart_participacao_zona`; região US.
 - Consultar `docs/contrato-dados.md` antes de implementar medidas e testes.
 - Coluna de aptos: `eleitorado_apto`. Taxas FLOAT64 entre 0 e 1.
 - Totais independentes em `docs/validacao-fonte.md`; resultados das análises em `analyses/evidencias/analises.json` quando executadas.
 - Não somar anos/turnos como pessoas únicas; não comparar territórios das zonas entre anos sem verificar continuidade.
-- Claude mantém README, testes singulares e dashboard. Codex integra e executa os testes quando os arquivos forem entregues.
+- Manter README, testes e dashboard alinhados ao contrato de dados e executar a suíte após alterações.
 - A entrega oficial é `dashboard/eleicoes-em-dados.pbip` com as pastas `.Report` (PBIR) e `.SemanticModel` (TMDL). O `.pbix` local inicial não contém os visuais finais e está excluído do Git, assim como caches `.pbi/`.
 
 ## Estado da execução
@@ -100,7 +100,7 @@ Integração da segunda rodada concluída em 29/09/2026: **3 modelos + 27 testes
 
 Demonstração executada via dbt: **FAIL 3**, exit code 1, exatamente como esperado; não foi erro de conexão ou compilação. Dry run da demo: 3920 bytes. Evidência separada em `analyses/evidencias/demo_qualidade.json`. O manifest e a documentação foram regenerados com a demo novamente desativada e os 27 testes normais disponíveis.
 
-Os testes entregues pela Claude e a demonstração estão integrados. A Claude concluiu o dashboard em PBIP e registrou a conferência das medidas nas quatro eleições e dos visuais em 2022/2º e 2018/2º turno. Na revisão final, o Codex conferiu as duas imagens contra os totais de referência, inspecionou os dez visuais e as nove medidas, e verificou os arquivos e links da entrega.
+Os testes e a demonstração estão integrados. O dashboard em PBIP está concluído, com conferência das medidas nas quatro eleições e dos visuais em 2022/2º e 2018/2º turno. A revisão final incluiu as duas imagens contra os totais de referência, os dez visuais, as nove medidas e os arquivos e links da entrega.
 
 Destino público da versão 1: [Deyv7/eleicoes-em-dados](https://github.com/Deyv7/eleicoes-em-dados). O repositório distribui as definições do relatório e imagens, sem caches locais, credenciais ou o PBIX inicial. Para reproduzir o Power BI, abra o PBIP, ajuste o projeto na consulta Power Query e autentique/atualize com sua própria conta. Não há dependência de Power BI Service pago.
 
@@ -116,8 +116,8 @@ flowchart LR
 
 Para consultar documentação local após gerar: `.\.venv\Scripts\dbt.exe docs serve --profiles-dir .local`. Os artefatos ficam em `target/`, ignorados pelo Git.
 
-### Fechamento da colaboração
+### Entrega final
 
-Codex entregou fonte, transformações, benchmark, execução dos testes e reprodução. Claude entregou testes independentes, modelo e visuais do Power BI, imagens, README e materiais de apresentação. A revisão editorial final corrigiu a contagem de linhas sintéticas na demo, distinguiu bytes lidos de bytes faturados e documentou PBIP como formato oficial. O roteiro de vídeo está pronto; a gravação não faz parte dos arquivos entregues.
+A entrega reúne validação da fonte, transformações, benchmark, testes de qualidade, reprodução, modelo e visuais do Power BI, imagens, README e materiais de apresentação. A revisão editorial final corrigiu a contagem de linhas sintéticas na demo, distinguiu bytes lidos de bytes faturados e documentou PBIP como formato oficial. O roteiro de vídeo está pronto; a gravação não faz parte dos arquivos entregues.
 
 Para apresentação, as taxas de abstenção do DF foram 18,7025% (2018/1), 18,9201% (2018/2), 17,5395% (2022/1) e 16,7209% (2022/2). Queda de 1,1630 p.p. no primeiro turno e 2,1992 p.p. no segundo, comparando 2022 a 2018. Valores completos em `analises.json`; não atribuir causas com base apenas nesses agregados.

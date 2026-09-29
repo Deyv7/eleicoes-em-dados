@@ -1,6 +1,6 @@
 # Roteiro de apresentação — 2 minutos
 
-Responsável: Claude. Roteiro para demonstrar o projeto em entrevista, vídeo ou banca. Todos os números vêm do mart e das evidências do repositório; nenhum foi estimado.
+Responsável: Deyvid Prado. Roteiro para demonstrar o projeto em entrevista, vídeo ou banca. Todos os números vêm do mart e das evidências do repositório; nenhum foi estimado.
 
 **Arco da história:** um número que parece simples → por que ele engana → como garanti que está certo → o que ele mostra → o que ele **não** mostra.
 

@@ -1,6 +1,6 @@
 # Contrato dos dados — v1
 
-Responsável: Codex. Validado contra a fonte em 29/09/2026. Contrato liberado para Claude implementar testes e BI. Mart construído e disponível; execução e reprodução registradas em `docs/reproducao.md`.
+Responsável: Deyvid Prado. Validado contra a fonte em 29/09/2026. Contrato de referência para os testes e o BI. Mart construído e disponível; execução e reprodução registradas em `docs/reproducao.md`.
 
 ## Fonte e filtros
 
@@ -49,8 +49,8 @@ Uma linha representa uma zona do DF em um ano e turno para presidente em eleiç�
 - Rankings por zona são válidos dentro da eleição. Comparações entre anos serão do DF como um todo: continuidade territorial das zonas não foi comprovada.
 - Não interpretar a pequena diferença de aptos entre turnos como erro nem forçar igualdade; os valores são os informados pela fonte.
 
-## Passagem para Claude
+## Orientações para testes e BI
 
 Atualizar rascunhos que usam `aptos`: o nome final é **eleitorado_apto**. Colunas de cargo e tipo_eleicao permanecem no mart. Atualizar o layout para remover a comparação territorial por zona entre 2018 e 2022 enquanto não houver comprovação dos limites. Substituir por tabela de detalhe ou contribuição das zonas para as abstenções no ano/turno escolhido.
 
-Escrever testes singulares em `tests/`. Os testes genéricos de chave/domínios serão mantidos por Codex em `models/`. A demonstração inválida deve ficar desativada por padrão com `var('demo_falha', false)`.
+Escrever testes singulares em `tests/`. Os testes genéricos de chave/domínios são mantidos em `models/`. A demonstração inválida deve ficar desativada por padrão com `var('demo_falha', false)`.

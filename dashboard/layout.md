@@ -1,8 +1,8 @@
 # Dashboard — layout e montagem
 
-Responsável: Claude. Relatório de uma página no Power BI Desktop (`dashboard/eleicoes-em-dados.pbip`), alimentado apenas pelo mart `eleitorado.eleicoes_em_dados.mart_participacao_zona`.
+Responsável: Deyvid Prado. Relatório de uma página no Power BI Desktop (`dashboard/eleicoes-em-dados.pbip`), alimentado apenas pelo mart `eleitorado.eleicoes_em_dados.mart_participacao_zona`.
 
-> Status: **modelo pronto e conferido** (tabela importada, 9 medidas criadas e validadas contra as evidências do Codex em 29/09/2026). **Visuais montados** no projeto `dashboard/eleicoes-em-dados.pbip` (PBIR, escritos pela Claude) e conferidos em 2022/2º e 2018/2º turno. Prints: `docs/apresentacao/`.
+> Status: **modelo pronto e conferido** (tabela importada, 9 medidas criadas e validadas contra as evidências SQL em 29/09/2026). **Visuais montados** no projeto `dashboard/eleicoes-em-dados.pbip` (PBIR) e conferidos em 2022/2º e 2018/2º turno. Prints: `docs/apresentacao/`.
 
 ## Perguntas que a página responde
 

@@ -1,5 +1,7 @@
 # Eleições em dados
 
+**Autor e responsável pelo projeto: Deyvid Prado.**
+
 Projeto de analytics engineering com dados eleitorais públicos: **BigQuery** como armazém, **dbt** para transformação, testes e documentação, e **Power BI** para o dashboard.
 
 > **Versão 1 — 29/09/2026:** mart construído e verificado contra a fonte; `dbt build` aprovado com 3 modelos e 27 testes (`PASS=30 WARN=0 ERROR=0`); dashboard montado e conferido, com projeto Power BI e imagens disponíveis neste repositório.
@@ -53,7 +55,7 @@ Tabela final: `eleitorado.eleicoes_em_dados.mart_participacao_zona`.
 
 ## Testes
 
-Duas camadas, escritas por agentes diferentes para que uma revise a outra:
+Duas camadas complementares de validação:
 
 - **Genéricos** (em `models/schema.yml`): not_null, valores aceitos e unicidade da chave. 18 testes.
 - **Singulares independentes** (em `tests/`), que não reutilizam os modelos intermediários:

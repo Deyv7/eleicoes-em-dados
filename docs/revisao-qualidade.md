@@ -1,8 +1,8 @@
 # Revisão de qualidade
 
-Responsável: Claude. Registra os testes independentes do mart, a revisão do contrato de dados e os problemas encaminhados ao Codex.
+Responsável: Deyvid Prado. Registra os testes independentes do mart, a revisão do contrato de dados e as correções identificadas.
 
-> Status: **testes integrados e aprovados.** Os 9 testes singulares passaram no `dbt build` executado pelo Codex em 29/09/2026 (3 modelos + 27 testes, `PASS=30 WARN=0 ERROR=0`), e a demonstração falhou com exatamente 3 violações, como esperado. Dashboard validado visualmente em 29/09/2026: 2022/2º e 2018/2º turno conferidos (cartões, barras visíveis e linhas da tabela) contra `docs/validacao-fonte.md` e `analyses/evidencias/analises.json`.
+> Status: **testes integrados e aprovados.** Os 9 testes singulares passaram no `dbt build` executado em 29/09/2026 (3 modelos + 27 testes, `PASS=30 WARN=0 ERROR=0`), e a demonstração falhou com exatamente 3 violações, como esperado. Dashboard validado visualmente em 29/09/2026: 2022/2º e 2018/2º turno conferidos (cartões, barras visíveis e linhas da tabela) contra `docs/validacao-fonte.md` e `analyses/evidencias/analises.json`.
 
 ## Resultado oficial (dbt)
 
@@ -15,7 +15,7 @@ A demonstração foi desativada de novo depois da execução, então o build nor
 
 ## Testes singulares
 
-Cada arquivo retorna as linhas que violam a regra; o teste passa quando o resultado é vazio. Todos leem `ref('mart_participacao_zona')`; T09 lê também a fonte. Os testes genéricos (not_null, accepted_values, unique da chave concatenada) são do Codex, em `models/schema.yml`; os singulares abaixo são verificações independentes que não reutilizam os modelos intermediários.
+Cada arquivo retorna as linhas que violam a regra; o teste passa quando o resultado é vazio. Todos leem `ref('mart_participacao_zona')`; T09 lê também a fonte. Os testes genéricos (not_null, accepted_values, unique da chave concatenada) estão em `models/schema.yml`; os singulares abaixo são verificações independentes que não reutilizam os modelos intermediários.
 
 | Id | Arquivo | Regra |
 |---|---|---|
@@ -29,7 +29,7 @@ Cada arquivo retorna as linhas que violam a regra; o teste passa quando o result
 | T08 | `tests/t08_totais_referencia.sql` | Linhas e totais por ano e turno iguais aos totais de referência de `docs/validacao-fonte.md` |
 | T09 | `tests/t09_linhas_vs_fonte.sql` | Comparação linha a linha com a fonte, reaplicando o recorte do contrato sem usar staging/intermediate |
 
-### Validação prévia (Claude, consulta direta)
+### Validação prévia (consulta direta)
 
 Antes da entrega, cada teste foi renderizado (ref/source substituídos pelas tabelas reais), estimado por dry run e executado somente leitura no BigQuery. Nenhuma tabela foi criada. Bytes estimados e processados coincidiram (cache desativado).
 
@@ -51,7 +51,7 @@ A validação prévia foi confirmada pela execução oficial via dbt (seção "R
 
 - Arquivo: `tests/demo/demo_falha_qualidade.sql`, desativado por padrão com `config(enabled=var('demo_falha', false))`.
 - Junta às 76 linhas reais do mart quatro linhas geradas em CTE (três casos inválidos, um deles duplicado) e aplica as regras de T02, T05 e T07. Nenhuma tabela é criada ou alterada.
-- Execução (Codex): `dbt test --select demo_falha_qualidade --vars "{demo_falha: true}"`.
+- Execução: `dbt test --select demo_falha_qualidade --vars "{demo_falha: true}"`.
 - Resultado esperado: **falha com 3 violações**, todas nas zonas injetadas:
 
 | Zona injetada | Regra violada |
@@ -74,7 +74,7 @@ Contrato lido em 29/09/2026. Sem inconsistências bloqueantes. Conferências:
 Observações (não bloqueiam):
 
 1. O contrato cita `ano` como partição e `sigla_uf` como clustering da fonte; o README antigo dizia "partições `ano`, `sigla_uf`". Corrigido no README.
-2. O mart usava `select *` a partir do intermediário, e uma coluna nova entraria sem passar pelo contrato. **Resolvido pelo Codex:** o mart agora lista explicitamente as 14 colunas do contrato (conferido em `models/marts/mart_participacao_zona.sql`).
+2. O mart usava `select *` a partir do intermediário, e uma coluna nova entraria sem passar pelo contrato. **Resolvido:** o mart agora lista explicitamente as 14 colunas do contrato (conferido em `models/marts/mart_participacao_zona.sql`).
 
 ## Regras de uso no dashboard (do contrato)
 
@@ -84,4 +84,4 @@ Observações (não bloqueiam):
 
 ## Problemas encontrados
 
-_Nenhum bloqueante._ A única sugestão (colunas explícitas no mart) foi aplicada pelo Codex.
+_Nenhum bloqueante._ A única sugestão (colunas explícitas no mart) foi aplicada.

@@ -1,6 +1,6 @@
 """Compara cada linha do mart à extração independente da fonte.
 
-Complementa (não substitui) os testes singulares de revisão da Claude.
+Complementa (não substitui) os testes singulares de qualidade.
 """
 import json
 import math

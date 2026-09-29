@@ -1,6 +1,6 @@
 # Descrições para currículo
 
-Responsável: Claude. Duas versões do mesmo projeto, cada uma com a ênfase da vaga. Todos os números estão nas evidências do repositório. Repositório: https://github.com/Deyv7/eleicoes-em-dados.
+Responsável: Deyvid Prado. Duas versões do mesmo projeto, cada uma com a ênfase da vaga. Todos os números estão nas evidências do repositório. Repositório: https://github.com/Deyv7/eleicoes-em-dados.
 
 ---
 

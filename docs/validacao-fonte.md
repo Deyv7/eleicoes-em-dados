@@ -30,6 +30,6 @@ Os totais acima foram calculados a partir das linhas lidas diretamente da fonte,
 
 As consultas adicionam campos de validação às consultas iniciais; os valores não devem ser confundidos com a estimativa anterior de 4,97 MB. Bytes faturados reportados pela API estão na evidência; não representam cobrança monetária no sandbox.
 
-## Ajustes para o README (Claude)
+## Observações para o README
 
 Corrigir a descrição física: `ano` é partição e `sigla_uf` é clustering. Cargo presidente e tipo eleicao ordinaria estão confirmados. Fixar um cargo é necessário para evitar contagem múltipla mesmo quando os valores entre cargos coincidem. Não preencher a tabela das consultas antigas com bytes de consultas diferentes.
