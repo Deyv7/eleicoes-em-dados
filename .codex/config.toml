@@ -1,0 +1,6 @@
+[mcp_servers.bigquery]
+command = 'C:\Users\Deyvid-PC\tools\toolbox.exe'
+args = ["--prebuilt", "bigquery", "--stdio"]
+
+[mcp_servers.bigquery.env]
+BIGQUERY_PROJECT = "eleitorado"

@@ -1,0 +1,111 @@
+version: 2
+sources:
+- name: tse
+  database: basedosdados
+  schema: br_tse_eleicoes
+  description: Dados públicos do TSE disponibilizados pela Base dos Dados. Ingestão
+    não faz parte deste projeto.
+  tables:
+  - name: detalhes_votacao_municipio_zona
+    description: Detalhes por eleição, cargo, município e zona; ano particionado,
+      UF clusterizada.
+models:
+- name: stg_tse__detalhes_votacao
+  description: Recorte DF 2018/2022; nomes normalizados e contagens preservadas.
+- name: int_comparecimento_presidente
+  description: Presidente em eleição ordinária; uma linha por ano, turno e zona.
+- name: mart_participacao_zona
+  description: 'Mart do Power BI: participação eleitoral por ano, turno e zona do
+    DF.'
+  columns:
+  - name: ano
+    description: Ano da eleição, 2018 ou 2022.
+    data_type: int64
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - 2018
+          - 2022
+          quote: false
+  - name: turno
+    description: Turno, 1 ou 2.
+    data_type: int64
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - 1
+          - 2
+          quote: false
+  - name: zona
+    description: Identificador textual da zona; não comprova continuidade territorial.
+    data_type: string
+    data_tests:
+    - not_null
+  - name: sigla_uf
+    description: Unidade da federação fixa DF.
+    data_type: string
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - DF
+  - name: cargo
+    description: Cargo fixo presidente.
+    data_type: string
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - presidente
+  - name: tipo_eleicao
+    description: Tipo fixo eleicao ordinaria.
+    data_type: string
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - eleicao ordinaria
+  - name: id_eleicao
+    description: Identificador da eleição informado pelo TSE.
+    data_type: string
+    data_tests:
+    - not_null
+  - name: id_municipio_tse
+    description: Identificador municipal do TSE.
+    data_type: string
+    data_tests:
+    - not_null
+  - name: eleitorado_apto
+    description: Eleitores aptos no ano/turno; aptos na fonte.
+    data_type: int64
+    data_tests:
+    - not_null
+  - name: comparecimento
+    description: Comparecimento informado na fonte.
+    data_type: int64
+    data_tests:
+    - not_null
+  - name: abstencoes
+    description: Abstenções informadas na fonte.
+    data_type: int64
+    data_tests:
+    - not_null
+  - name: taxa_comparecimento
+    description: Comparecimento / aptos, entre 0 e 1; NULL com aptos zero.
+    data_type: float64
+  - name: taxa_abstencao
+    description: Abstenções / aptos, entre 0 e 1; NULL com aptos zero.
+    data_type: float64
+  - name: chave_zona_eleicao_turno
+    description: Chave ano-turno-zona, sem deduplicação.
+    data_type: string
+    data_tests:
+    - not_null
+    - unique

@@ -1,0 +1,19 @@
+name: eleicoes_em_dados
+version: '1.0.0'
+config-version: 2
+profile: eleicoes_em_dados
+model-paths: [models]
+analysis-paths: [analyses]
+test-paths: [tests]
+clean-targets: [target, dbt_packages]
+models:
+  eleicoes_em_dados:
+    +persist_docs:
+      relation: true
+      columns: true
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

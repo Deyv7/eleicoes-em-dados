@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "bigquery": {
+      "command": "C:\\Users\\Deyvid-PC\\tools\\toolbox.exe",
+      "args": ["--prebuilt", "bigquery", "--stdio"],
+      "env": {
+        "BIGQUERY_PROJECT": "eleitorado"
+      }
+    }
+  }
+}

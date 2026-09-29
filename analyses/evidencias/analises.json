@@ -1,0 +1,1424 @@
+{
+  "01_taxa_df": {
+    "sql": "-- Taxas ponderadas do DF por ano e turno.\nselect ano, turno,\n    sum(eleitorado_apto) as eleitorado_apto,\n    sum(comparecimento) as comparecimento,\n    sum(abstencoes) as abstencoes,\n    safe_divide(sum(abstencoes), sum(eleitorado_apto)) as taxa_abstencao\nfrom `eleitorado`.`eleicoes_em_dados`.`mart_participacao_zona`\ngroup by ano, turno\norder by ano, turno",
+    "estimated_bytes": 3040,
+    "processed_bytes": 3040,
+    "billed_bytes": 10485760,
+    "job_id": "2f3158b1-9e8d-482a-9488-92c10c452a33",
+    "cache_hit": false,
+    "rows": [
+      {
+        "ano": 2018,
+        "turno": 1,
+        "eleitorado_apto": 2085825,
+        "comparecimento": 1695724,
+        "abstencoes": 390101,
+        "taxa_abstencao": 0.18702479834118393
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "eleitorado_apto": 2086086,
+        "comparecimento": 1691396,
+        "abstencoes": 394690,
+        "taxa_abstencao": 0.1892012122223149
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "eleitorado_apto": 2206996,
+        "comparecimento": 1819900,
+        "abstencoes": 387096,
+        "taxa_abstencao": 0.1753949712641074
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "eleitorado_apto": 2207628,
+        "comparecimento": 1838492,
+        "abstencoes": 369136,
+        "taxa_abstencao": 0.16720933055750334
+      }
+    ]
+  },
+  "03_variacao_anos": {
+    "sql": "-- Compara\u00e7\u00e3o agregada do DF, mesmo turno, em pontos percentuais.\nwith taxas as (\n    select ano, turno,\n        safe_divide(sum(abstencoes), sum(eleitorado_apto)) as taxa_abstencao\n    from `eleitorado`.`eleicoes_em_dados`.`mart_participacao_zona`\n    group by ano, turno\n)\nselect ano, turno, taxa_abstencao,\n    100 * (taxa_abstencao - lag(taxa_abstencao) over (\n        partition by turno order by ano\n    )) as variacao_pp\nfrom taxas\norder by turno, ano",
+    "estimated_bytes": 2432,
+    "processed_bytes": 2432,
+    "billed_bytes": 10485760,
+    "job_id": "7d7f005a-0b77-4639-8868-99077f3131ad",
+    "cache_hit": false,
+    "rows": [
+      {
+        "ano": 2018,
+        "turno": 1,
+        "taxa_abstencao": 0.18702479834118393,
+        "variacao_pp": null
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "taxa_abstencao": 0.1753949712641074,
+        "variacao_pp": -1.162982707707652
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "taxa_abstencao": 0.1892012122223149,
+        "variacao_pp": null
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "taxa_abstencao": 0.16720933055750334,
+        "variacao_pp": -2.199188166481156
+      }
+    ]
+  },
+  "04_variacao_turnos": {
+    "sql": "with taxas as (\n    select ano, turno,\n        safe_divide(sum(comparecimento), sum(eleitorado_apto)) as taxa_comparecimento\n    from `eleitorado`.`eleicoes_em_dados`.`mart_participacao_zona`\n    group by ano, turno\n)\nselect ano, turno, taxa_comparecimento,\n    100 * (taxa_comparecimento - lag(taxa_comparecimento) over (\n        partition by ano order by turno\n    )) as variacao_pp\nfrom taxas\norder by ano, turno",
+    "estimated_bytes": 2432,
+    "processed_bytes": 2432,
+    "billed_bytes": 10485760,
+    "job_id": "7469b1ca-63aa-4795-bec9-45c3c152eddf",
+    "cache_hit": false,
+    "rows": [
+      {
+        "ano": 2018,
+        "turno": 1,
+        "taxa_comparecimento": 0.8129752016588161,
+        "variacao_pp": null
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "taxa_comparecimento": 0.8107987877776851,
+        "variacao_pp": -0.21764138811309897
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "taxa_comparecimento": 0.8246050287358926,
+        "variacao_pp": null
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "taxa_comparecimento": 0.8327906694424967,
+        "variacao_pp": 0.8185640706604103
+      }
+    ]
+  },
+  "05_contribuicao_zonas": {
+    "sql": "select ano, turno, zona, abstencoes,\n    safe_divide(abstencoes, sum(abstencoes) over (\n        partition by ano, turno\n    )) as participacao_abstencoes_df\nfrom `eleitorado`.`eleicoes_em_dados`.`mart_participacao_zona`\norder by ano, turno, participacao_abstencoes_df desc, zona",
+    "estimated_bytes": 2096,
+    "processed_bytes": 2096,
+    "billed_bytes": 10485760,
+    "job_id": "30b85445-5e8a-4bf4-ba5a-07d36c33b2eb",
+    "cache_hit": false,
+    "rows": [
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "16",
+        "abstencoes": 28961,
+        "participacao_abstencoes_df": 0.07423974816778219
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "8",
+        "abstencoes": 27533,
+        "participacao_abstencoes_df": 0.07057915770531221
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "6",
+        "abstencoes": 26881,
+        "participacao_abstencoes_df": 0.06890779567342817
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "17",
+        "abstencoes": 24444,
+        "participacao_abstencoes_df": 0.06266069556345664
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "15",
+        "abstencoes": 23973,
+        "participacao_abstencoes_df": 0.06145331593612936
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "5",
+        "abstencoes": 23520,
+        "participacao_abstencoes_df": 0.06029207820538784
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "13",
+        "abstencoes": 22899,
+        "participacao_abstencoes_df": 0.05870018277317925
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "2",
+        "abstencoes": 22886,
+        "participacao_abstencoes_df": 0.05866685807008954
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "21",
+        "abstencoes": 22587,
+        "participacao_abstencoes_df": 0.05790038989902615
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "9",
+        "abstencoes": 22471,
+        "participacao_abstencoes_df": 0.05760303100991795
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "18",
+        "abstencoes": 22074,
+        "participacao_abstencoes_df": 0.056585345846332104
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "10",
+        "abstencoes": 20280,
+        "participacao_abstencoes_df": 0.05198653681995176
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "4",
+        "abstencoes": 18052,
+        "participacao_abstencoes_df": 0.046275195398114845
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "19",
+        "abstencoes": 17158,
+        "participacao_abstencoes_df": 0.0439834812010223
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "14",
+        "abstencoes": 17021,
+        "participacao_abstencoes_df": 0.04363229009923071
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "1",
+        "abstencoes": 13525,
+        "participacao_abstencoes_df": 0.03467050840679722
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "20",
+        "abstencoes": 13344,
+        "participacao_abstencoes_df": 0.034206526002240445
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "3",
+        "abstencoes": 11254,
+        "participacao_abstencoes_df": 0.028848939120894333
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "11",
+        "abstencoes": 11238,
+        "participacao_abstencoes_df": 0.028807924101706992
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "16",
+        "abstencoes": 29261,
+        "participacao_abstencoes_df": 0.07413666421748714
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "8",
+        "abstencoes": 27554,
+        "participacao_abstencoes_df": 0.06981175099445135
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "6",
+        "abstencoes": 27167,
+        "participacao_abstencoes_df": 0.06883123463984393
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "15",
+        "abstencoes": 24777,
+        "participacao_abstencoes_df": 0.06277584940079556
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "17",
+        "abstencoes": 24279,
+        "participacao_abstencoes_df": 0.06151409967316122
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "5",
+        "abstencoes": 24073,
+        "participacao_abstencoes_df": 0.06099217107096709
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "13",
+        "abstencoes": 23181,
+        "participacao_abstencoes_df": 0.058732169550786695
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "18",
+        "abstencoes": 22845,
+        "participacao_abstencoes_df": 0.0578808685297322
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "9",
+        "abstencoes": 22826,
+        "participacao_abstencoes_df": 0.057832729483898754
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "2",
+        "abstencoes": 22674,
+        "participacao_abstencoes_df": 0.057447617117231245
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "21",
+        "abstencoes": 22399,
+        "participacao_abstencoes_df": 0.056750867769642
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "10",
+        "abstencoes": 20409,
+        "participacao_abstencoes_df": 0.05170893612708708
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "4",
+        "abstencoes": 18116,
+        "participacao_abstencoes_df": 0.04589931338518838
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "14",
+        "abstencoes": 17480,
+        "participacao_abstencoes_df": 0.04428792216676379
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "19",
+        "abstencoes": 17381,
+        "participacao_abstencoes_df": 0.04403709240163166
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "1",
+        "abstencoes": 13941,
+        "participacao_abstencoes_df": 0.035321391471787984
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "20",
+        "abstencoes": 13320,
+        "participacao_abstencoes_df": 0.033748004763231906
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "11",
+        "abstencoes": 11515,
+        "participacao_abstencoes_df": 0.029174795409055206
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "3",
+        "abstencoes": 11492,
+        "participacao_abstencoes_df": 0.029116521827256835
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "16",
+        "abstencoes": 27759,
+        "participacao_abstencoes_df": 0.07171089342178684
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "8",
+        "abstencoes": 26526,
+        "participacao_abstencoes_df": 0.0685256370512741
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "6",
+        "abstencoes": 25895,
+        "participacao_abstencoes_df": 0.06689555045776759
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "15",
+        "abstencoes": 25323,
+        "participacao_abstencoes_df": 0.06541788083576167
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "13",
+        "abstencoes": 24089,
+        "participacao_abstencoes_df": 0.06223004112674892
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "17",
+        "abstencoes": 23276,
+        "participacao_abstencoes_df": 0.06012978692624052
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "18",
+        "abstencoes": 22803,
+        "participacao_abstencoes_df": 0.058907867815735634
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "9",
+        "abstencoes": 22745,
+        "participacao_abstencoes_df": 0.05875803418273503
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "5",
+        "abstencoes": 22469,
+        "participacao_abstencoes_df": 0.05804503275673218
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "2",
+        "abstencoes": 22213,
+        "participacao_abstencoes_df": 0.05738369810072953
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "21",
+        "abstencoes": 21392,
+        "participacao_abstencoes_df": 0.05526277719222105
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "10",
+        "abstencoes": 20354,
+        "participacao_abstencoes_df": 0.052581271829210324
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "4",
+        "abstencoes": 18588,
+        "participacao_abstencoes_df": 0.04801909603819208
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "19",
+        "abstencoes": 17544,
+        "participacao_abstencoes_df": 0.04532209064418129
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "14",
+        "abstencoes": 17152,
+        "participacao_abstencoes_df": 0.044309421952177235
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "20",
+        "abstencoes": 13558,
+        "participacao_abstencoes_df": 0.0350249033831401
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "1",
+        "abstencoes": 12976,
+        "participacao_abstencoes_df": 0.03352140037613409
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "11",
+        "abstencoes": 11311,
+        "participacao_abstencoes_df": 0.02922014177361688
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "3",
+        "abstencoes": 11123,
+        "participacao_abstencoes_df": 0.02873447413561494
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "16",
+        "abstencoes": 26199,
+        "participacao_abstencoes_df": 0.07097384161934897
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "8",
+        "abstencoes": 24702,
+        "participacao_abstencoes_df": 0.06691842572927051
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "15",
+        "abstencoes": 24479,
+        "participacao_abstencoes_df": 0.06631431234016731
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "6",
+        "abstencoes": 24350,
+        "participacao_abstencoes_df": 0.06596484764422869
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "13",
+        "abstencoes": 22757,
+        "participacao_abstencoes_df": 0.06164936500368428
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "18",
+        "abstencoes": 22201,
+        "participacao_abstencoes_df": 0.0601431450739023
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "9",
+        "abstencoes": 22181,
+        "participacao_abstencoes_df": 0.06008896450088856
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "17",
+        "abstencoes": 21676,
+        "participacao_abstencoes_df": 0.058720905032291625
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "5",
+        "abstencoes": 21463,
+        "participacao_abstencoes_df": 0.05814388192969529
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "2",
+        "abstencoes": 21160,
+        "participacao_abstencoes_df": 0.057323046248537124
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "21",
+        "abstencoes": 20509,
+        "participacao_abstencoes_df": 0.05555946859693988
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "10",
+        "abstencoes": 19364,
+        "participacao_abstencoes_df": 0.052457630791903256
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "4",
+        "abstencoes": 17270,
+        "participacao_abstencoes_df": 0.04678492479736466
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "14",
+        "abstencoes": 16799,
+        "participacao_abstencoes_df": 0.045508972302891075
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "19",
+        "abstencoes": 16473,
+        "participacao_abstencoes_df": 0.04462582896276711
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "1",
+        "abstencoes": 12905,
+        "participacao_abstencoes_df": 0.03496001473711586
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "20",
+        "abstencoes": 12768,
+        "participacao_abstencoes_df": 0.03458887781197174
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "11",
+        "abstencoes": 11285,
+        "participacao_abstencoes_df": 0.030571388323002904
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "3",
+        "abstencoes": 10595,
+        "participacao_abstencoes_df": 0.028702158554028866
+      }
+    ]
+  },
+  "02_ranking_zonas": {
+    "sql": "-- Rankings determin\u00edsticos por elei\u00e7\u00e3o; taxas nulas ficam no final.\nselect ano, turno, zona, eleitorado_apto, abstencoes, taxa_abstencao,\n    row_number() over (\n        partition by ano, turno order by taxa_abstencao desc nulls last, zona\n    ) as ranking_maior_abstencao,\n    row_number() over (\n        partition by ano, turno order by taxa_abstencao asc nulls last, zona\n    ) as ranking_menor_abstencao\nfrom `eleitorado`.`eleicoes_em_dados`.`mart_participacao_zona`\norder by ano, turno, ranking_maior_abstencao",
+    "estimated_bytes": 3312,
+    "processed_bytes": 3312,
+    "billed_bytes": 10485760,
+    "job_id": "9a59fe70-b72d-42eb-aa31-3e7a7f439fdf",
+    "cache_hit": false,
+    "rows": [
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "2",
+        "eleitorado_apto": 105108,
+        "abstencoes": 22886,
+        "taxa_abstencao": 0.21773794573200897,
+        "ranking_maior_abstencao": 1,
+        "ranking_menor_abstencao": 19
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "6",
+        "eleitorado_apto": 130342,
+        "abstencoes": 26881,
+        "taxa_abstencao": 0.20623436804713752,
+        "ranking_maior_abstencao": 2,
+        "ranking_menor_abstencao": 18
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "21",
+        "eleitorado_apto": 110584,
+        "abstencoes": 22587,
+        "taxa_abstencao": 0.20425197135209433,
+        "ranking_maior_abstencao": 3,
+        "ranking_menor_abstencao": 17
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "8",
+        "eleitorado_apto": 135658,
+        "abstencoes": 27533,
+        "taxa_abstencao": 0.20295891138008818,
+        "ranking_maior_abstencao": 4,
+        "ranking_menor_abstencao": 16
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "16",
+        "eleitorado_apto": 145098,
+        "abstencoes": 28961,
+        "taxa_abstencao": 0.19959613502598245,
+        "ranking_maior_abstencao": 5,
+        "ranking_menor_abstencao": 15
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "17",
+        "eleitorado_apto": 124300,
+        "abstencoes": 24444,
+        "taxa_abstencao": 0.1966532582461786,
+        "ranking_maior_abstencao": 6,
+        "ranking_menor_abstencao": 14
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "18",
+        "eleitorado_apto": 115123,
+        "abstencoes": 22074,
+        "taxa_abstencao": 0.19174274471652059,
+        "ranking_maior_abstencao": 7,
+        "ranking_menor_abstencao": 13
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "4",
+        "eleitorado_apto": 94609,
+        "abstencoes": 18052,
+        "taxa_abstencao": 0.19080637148685642,
+        "ranking_maior_abstencao": 8,
+        "ranking_menor_abstencao": 12
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "5",
+        "eleitorado_apto": 126087,
+        "abstencoes": 23520,
+        "taxa_abstencao": 0.18653786671108044,
+        "ranking_maior_abstencao": 9,
+        "ranking_menor_abstencao": 11
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "10",
+        "eleitorado_apto": 111006,
+        "abstencoes": 20280,
+        "taxa_abstencao": 0.18269282741473433,
+        "ranking_maior_abstencao": 10,
+        "ranking_menor_abstencao": 10
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "9",
+        "eleitorado_apto": 123814,
+        "abstencoes": 22471,
+        "taxa_abstencao": 0.18148997690083513,
+        "ranking_maior_abstencao": 11,
+        "ranking_menor_abstencao": 9
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "13",
+        "eleitorado_apto": 128759,
+        "abstencoes": 22899,
+        "taxa_abstencao": 0.17784387887448644,
+        "ranking_maior_abstencao": 12,
+        "ranking_menor_abstencao": 8
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "20",
+        "eleitorado_apto": 75236,
+        "abstencoes": 13344,
+        "taxa_abstencao": 0.17736190121750225,
+        "ranking_maior_abstencao": 13,
+        "ranking_menor_abstencao": 7
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "1",
+        "eleitorado_apto": 77379,
+        "abstencoes": 13525,
+        "taxa_abstencao": 0.1747890254461805,
+        "ranking_maior_abstencao": 14,
+        "ranking_menor_abstencao": 6
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "14",
+        "eleitorado_apto": 97947,
+        "abstencoes": 17021,
+        "taxa_abstencao": 0.17377765526253994,
+        "ranking_maior_abstencao": 15,
+        "ranking_menor_abstencao": 5
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "19",
+        "eleitorado_apto": 99840,
+        "abstencoes": 17158,
+        "taxa_abstencao": 0.17185496794871793,
+        "ranking_maior_abstencao": 16,
+        "ranking_menor_abstencao": 4
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "15",
+        "eleitorado_apto": 145284,
+        "abstencoes": 23973,
+        "taxa_abstencao": 0.16500784670025606,
+        "ranking_maior_abstencao": 17,
+        "ranking_menor_abstencao": 3
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "3",
+        "eleitorado_apto": 68995,
+        "abstencoes": 11254,
+        "taxa_abstencao": 0.16311326907746937,
+        "ranking_maior_abstencao": 18,
+        "ranking_menor_abstencao": 2
+      },
+      {
+        "ano": 2018,
+        "turno": 1,
+        "zona": "11",
+        "eleitorado_apto": 70656,
+        "abstencoes": 11238,
+        "taxa_abstencao": 0.1590523097826087,
+        "ranking_maior_abstencao": 19,
+        "ranking_menor_abstencao": 1
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "2",
+        "eleitorado_apto": 105113,
+        "abstencoes": 22674,
+        "taxa_abstencao": 0.21571071132971184,
+        "ranking_maior_abstencao": 1,
+        "ranking_menor_abstencao": 19
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "6",
+        "eleitorado_apto": 130346,
+        "abstencoes": 27167,
+        "taxa_abstencao": 0.20842219937704265,
+        "ranking_maior_abstencao": 2,
+        "ranking_menor_abstencao": 18
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "8",
+        "eleitorado_apto": 135660,
+        "abstencoes": 27554,
+        "taxa_abstencao": 0.2031107179713991,
+        "ranking_maior_abstencao": 3,
+        "ranking_menor_abstencao": 17
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "21",
+        "eleitorado_apto": 110588,
+        "abstencoes": 22399,
+        "taxa_abstencao": 0.20254457988208485,
+        "ranking_maior_abstencao": 4,
+        "ranking_menor_abstencao": 16
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "16",
+        "eleitorado_apto": 145101,
+        "abstencoes": 29261,
+        "taxa_abstencao": 0.20165953370410955,
+        "ranking_maior_abstencao": 5,
+        "ranking_menor_abstencao": 15
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "18",
+        "eleitorado_apto": 115133,
+        "abstencoes": 22845,
+        "taxa_abstencao": 0.19842269375417995,
+        "ranking_maior_abstencao": 6,
+        "ranking_menor_abstencao": 14
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "17",
+        "eleitorado_apto": 124312,
+        "abstencoes": 24279,
+        "taxa_abstencao": 0.19530696956046079,
+        "ranking_maior_abstencao": 7,
+        "ranking_menor_abstencao": 13
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "4",
+        "eleitorado_apto": 94612,
+        "abstencoes": 18116,
+        "taxa_abstencao": 0.19147676827463747,
+        "ranking_maior_abstencao": 8,
+        "ranking_menor_abstencao": 12
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "5",
+        "eleitorado_apto": 126100,
+        "abstencoes": 24073,
+        "taxa_abstencao": 0.19090404440919906,
+        "ranking_maior_abstencao": 9,
+        "ranking_menor_abstencao": 11
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "9",
+        "eleitorado_apto": 123836,
+        "abstencoes": 22826,
+        "taxa_abstencao": 0.18432442908362673,
+        "ranking_maior_abstencao": 10,
+        "ranking_menor_abstencao": 10
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "10",
+        "eleitorado_apto": 111022,
+        "abstencoes": 20409,
+        "taxa_abstencao": 0.18382843040118174,
+        "ranking_maior_abstencao": 11,
+        "ranking_menor_abstencao": 9
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "1",
+        "eleitorado_apto": 77392,
+        "abstencoes": 13941,
+        "taxa_abstencao": 0.18013489766384122,
+        "ranking_maior_abstencao": 12,
+        "ranking_menor_abstencao": 8
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "13",
+        "eleitorado_apto": 128766,
+        "abstencoes": 23181,
+        "taxa_abstencao": 0.18002422999860213,
+        "ranking_maior_abstencao": 13,
+        "ranking_menor_abstencao": 7
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "14",
+        "eleitorado_apto": 98012,
+        "abstencoes": 17480,
+        "taxa_abstencao": 0.1783455087132188,
+        "ranking_maior_abstencao": 14,
+        "ranking_menor_abstencao": 6
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "20",
+        "eleitorado_apto": 75240,
+        "abstencoes": 13320,
+        "taxa_abstencao": 0.17703349282296652,
+        "ranking_maior_abstencao": 15,
+        "ranking_menor_abstencao": 5
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "19",
+        "eleitorado_apto": 99853,
+        "abstencoes": 17381,
+        "taxa_abstencao": 0.17406587683895325,
+        "ranking_maior_abstencao": 16,
+        "ranking_menor_abstencao": 4
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "15",
+        "eleitorado_apto": 145318,
+        "abstencoes": 24777,
+        "taxa_abstencao": 0.1705019336902517,
+        "ranking_maior_abstencao": 17,
+        "ranking_menor_abstencao": 3
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "3",
+        "eleitorado_apto": 69002,
+        "abstencoes": 11492,
+        "taxa_abstencao": 0.16654589722037041,
+        "ranking_maior_abstencao": 18,
+        "ranking_menor_abstencao": 2
+      },
+      {
+        "ano": 2018,
+        "turno": 2,
+        "zona": "11",
+        "eleitorado_apto": 70680,
+        "abstencoes": 11515,
+        "taxa_abstencao": 0.1629173740803622,
+        "ranking_maior_abstencao": 19,
+        "ranking_menor_abstencao": 1
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "2",
+        "eleitorado_apto": 113754,
+        "abstencoes": 22213,
+        "taxa_abstencao": 0.195272254162491,
+        "ranking_maior_abstencao": 1,
+        "ranking_menor_abstencao": 19
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "8",
+        "eleitorado_apto": 137872,
+        "abstencoes": 26526,
+        "taxa_abstencao": 0.19239584542184054,
+        "ranking_maior_abstencao": 2,
+        "ranking_menor_abstencao": 18
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "6",
+        "eleitorado_apto": 136557,
+        "abstencoes": 25895,
+        "taxa_abstencao": 0.18962777448245055,
+        "ranking_maior_abstencao": 3,
+        "ranking_menor_abstencao": 17
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "21",
+        "eleitorado_apto": 114751,
+        "abstencoes": 21392,
+        "taxa_abstencao": 0.18642103336790095,
+        "ranking_maior_abstencao": 4,
+        "ranking_menor_abstencao": 16
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "16",
+        "eleitorado_apto": 151309,
+        "abstencoes": 27759,
+        "taxa_abstencao": 0.18345901433490408,
+        "ranking_maior_abstencao": 5,
+        "ranking_menor_abstencao": 15
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "4",
+        "eleitorado_apto": 101566,
+        "abstencoes": 18588,
+        "taxa_abstencao": 0.18301400074828192,
+        "ranking_maior_abstencao": 6,
+        "ranking_menor_abstencao": 14
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "17",
+        "eleitorado_apto": 128492,
+        "abstencoes": 23276,
+        "taxa_abstencao": 0.18114746443358343,
+        "ranking_maior_abstencao": 7,
+        "ranking_menor_abstencao": 13
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "18",
+        "eleitorado_apto": 127956,
+        "abstencoes": 22803,
+        "taxa_abstencao": 0.17820969708337242,
+        "ranking_maior_abstencao": 8,
+        "ranking_menor_abstencao": 12
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "13",
+        "eleitorado_apto": 137907,
+        "abstencoes": 24089,
+        "taxa_abstencao": 0.1746756872385013,
+        "ranking_maior_abstencao": 9,
+        "ranking_menor_abstencao": 11
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "5",
+        "eleitorado_apto": 129671,
+        "abstencoes": 22469,
+        "taxa_abstencao": 0.1732769856020236,
+        "ranking_maior_abstencao": 10,
+        "ranking_menor_abstencao": 10
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "9",
+        "eleitorado_apto": 132079,
+        "abstencoes": 22745,
+        "taxa_abstencao": 0.17220754245565154,
+        "ranking_maior_abstencao": 11,
+        "ranking_menor_abstencao": 9
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "20",
+        "eleitorado_apto": 79049,
+        "abstencoes": 13558,
+        "taxa_abstencao": 0.17151387114321498,
+        "ranking_maior_abstencao": 12,
+        "ranking_menor_abstencao": 8
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "1",
+        "eleitorado_apto": 76126,
+        "abstencoes": 12976,
+        "taxa_abstencao": 0.1704542469064446,
+        "ranking_maior_abstencao": 13,
+        "ranking_menor_abstencao": 7
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "10",
+        "eleitorado_apto": 119989,
+        "abstencoes": 20354,
+        "taxa_abstencao": 0.16963221628649292,
+        "ranking_maior_abstencao": 14,
+        "ranking_menor_abstencao": 6
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "19",
+        "eleitorado_apto": 106880,
+        "abstencoes": 17544,
+        "taxa_abstencao": 0.16414670658682634,
+        "ranking_maior_abstencao": 15,
+        "ranking_menor_abstencao": 5
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "14",
+        "eleitorado_apto": 106598,
+        "abstencoes": 17152,
+        "taxa_abstencao": 0.16090358168070695,
+        "ranking_maior_abstencao": 16,
+        "ranking_menor_abstencao": 4
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "15",
+        "eleitorado_apto": 160797,
+        "abstencoes": 25323,
+        "taxa_abstencao": 0.15748428142316087,
+        "ranking_maior_abstencao": 17,
+        "ranking_menor_abstencao": 3
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "3",
+        "eleitorado_apto": 70840,
+        "abstencoes": 11123,
+        "taxa_abstencao": 0.15701581027667985,
+        "ranking_maior_abstencao": 18,
+        "ranking_menor_abstencao": 2
+      },
+      {
+        "ano": 2022,
+        "turno": 1,
+        "zona": "11",
+        "eleitorado_apto": 74803,
+        "abstencoes": 11311,
+        "taxa_abstencao": 0.1512105129473417,
+        "ranking_maior_abstencao": 19,
+        "ranking_menor_abstencao": 1
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "2",
+        "eleitorado_apto": 113773,
+        "abstencoes": 21160,
+        "taxa_abstencao": 0.1859843723906375,
+        "ranking_maior_abstencao": 1,
+        "ranking_menor_abstencao": 19
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "8",
+        "eleitorado_apto": 137866,
+        "abstencoes": 24702,
+        "taxa_abstencao": 0.17917398053182076,
+        "ranking_maior_abstencao": 2,
+        "ranking_menor_abstencao": 18
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "21",
+        "eleitorado_apto": 114761,
+        "abstencoes": 20509,
+        "taxa_abstencao": 0.17871053755195582,
+        "ranking_maior_abstencao": 3,
+        "ranking_menor_abstencao": 17
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "6",
+        "eleitorado_apto": 136556,
+        "abstencoes": 24350,
+        "taxa_abstencao": 0.17831512346583087,
+        "ranking_maior_abstencao": 4,
+        "ranking_menor_abstencao": 16
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "18",
+        "eleitorado_apto": 128006,
+        "abstencoes": 22201,
+        "taxa_abstencao": 0.17343718263206412,
+        "ranking_maior_abstencao": 5,
+        "ranking_menor_abstencao": 15
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "16",
+        "eleitorado_apto": 151315,
+        "abstencoes": 26199,
+        "taxa_abstencao": 0.1731421207414995,
+        "ranking_maior_abstencao": 6,
+        "ranking_menor_abstencao": 14
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "4",
+        "eleitorado_apto": 101565,
+        "abstencoes": 17270,
+        "taxa_abstencao": 0.17003889135036676,
+        "ranking_maior_abstencao": 7,
+        "ranking_menor_abstencao": 13
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "1",
+        "eleitorado_apto": 76128,
+        "abstencoes": 12905,
+        "taxa_abstencao": 0.16951712904581756,
+        "ranking_maior_abstencao": 8,
+        "ranking_menor_abstencao": 12
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "17",
+        "eleitorado_apto": 128558,
+        "abstencoes": 21676,
+        "taxa_abstencao": 0.16860872135534155,
+        "ranking_maior_abstencao": 9,
+        "ranking_menor_abstencao": 11
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "9",
+        "eleitorado_apto": 132150,
+        "abstencoes": 22181,
+        "taxa_abstencao": 0.1678471433976542,
+        "ranking_maior_abstencao": 10,
+        "ranking_menor_abstencao": 10
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "5",
+        "eleitorado_apto": 129688,
+        "abstencoes": 21463,
+        "taxa_abstencao": 0.1654971932638332,
+        "ranking_maior_abstencao": 11,
+        "ranking_menor_abstencao": 9
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "13",
+        "eleitorado_apto": 137942,
+        "abstencoes": 22757,
+        "taxa_abstencao": 0.1649751344768091,
+        "ranking_maior_abstencao": 12,
+        "ranking_menor_abstencao": 8
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "20",
+        "eleitorado_apto": 79049,
+        "abstencoes": 12768,
+        "taxa_abstencao": 0.1615200698301054,
+        "ranking_maior_abstencao": 13,
+        "ranking_menor_abstencao": 7
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "10",
+        "eleitorado_apto": 120052,
+        "abstencoes": 19364,
+        "taxa_abstencao": 0.1612967713990604,
+        "ranking_maior_abstencao": 14,
+        "ranking_menor_abstencao": 6
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "14",
+        "eleitorado_apto": 106736,
+        "abstencoes": 16799,
+        "taxa_abstencao": 0.1573883225903163,
+        "ranking_maior_abstencao": 15,
+        "ranking_menor_abstencao": 5
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "19",
+        "eleitorado_apto": 106932,
+        "abstencoes": 16473,
+        "taxa_abstencao": 0.15405117270788912,
+        "ranking_maior_abstencao": 16,
+        "ranking_menor_abstencao": 4
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "15",
+        "eleitorado_apto": 160820,
+        "abstencoes": 24479,
+        "taxa_abstencao": 0.15221365501803258,
+        "ranking_maior_abstencao": 17,
+        "ranking_menor_abstencao": 3
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "11",
+        "eleitorado_apto": 74867,
+        "abstencoes": 11285,
+        "taxa_abstencao": 0.15073396823700697,
+        "ranking_maior_abstencao": 18,
+        "ranking_menor_abstencao": 2
+      },
+      {
+        "ano": 2022,
+        "turno": 2,
+        "zona": "3",
+        "eleitorado_apto": 70864,
+        "abstencoes": 10595,
+        "taxa_abstencao": 0.14951174079927748,
+        "ranking_maior_abstencao": 19,
+        "ranking_menor_abstencao": 1
+      }
+    ]
+  }
+}

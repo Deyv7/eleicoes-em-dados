@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-09-29T16:19:30.495874Z",
+  "dbt_version": "1.12.5",
+  "elapsed_time": 3.6911725997924805,
+  "results": [
+    {
+      "node": "test.eleicoes_em_dados.demo_falha_qualidade",
+      "status": "fail",
+      "failures": 3,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 3.8 KiB processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 3920,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "7994bc70-524b-4a6a-88d0-396cd54dae05",
+        "slot_ms": 182
+      }
+    }
+  ],
+  "expected_exit_code": 1,
+  "actual_exit_code": 1,
+  "estimated_bytes": 3920
+}

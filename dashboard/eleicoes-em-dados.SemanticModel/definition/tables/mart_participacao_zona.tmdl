@@ -1,0 +1,169 @@
+/// Participação eleitoral por ano, turno e zona do DF (presidente, eleição ordinária). Fonte: eleitorado.eleicoes_em_dados.mart_participacao_zona.
+table mart_participacao_zona
+	lineageTag: 1167c63a-3168-4914-878f-c91083e1eb38
+
+	/// Soma de eleitorado_apto. Em branco se mais de uma eleição (ano/turno) estiver no contexto: o contrato proíbe somar eleições como pessoas únicas.
+	measure 'Eleitorado apto (total)' =
+			IF (
+			    HASONEVALUE ( mart_participacao_zona[ano] ) && HASONEVALUE ( mart_participacao_zona[turno] ),
+			    SUM ( mart_participacao_zona[eleitorado_apto] )
+			)
+		formatString: #,0
+		displayFolder: Contagens
+		lineageTag: 777ca9a4-e76d-4ef6-a824-eab75356c9eb
+
+	/// Soma de comparecimento em uma única eleição (ano/turno).
+	measure 'Comparecimento (total)' =
+			IF (
+			    HASONEVALUE ( mart_participacao_zona[ano] ) && HASONEVALUE ( mart_participacao_zona[turno] ),
+			    SUM ( mart_participacao_zona[comparecimento] )
+			)
+		formatString: #,0
+		displayFolder: Contagens
+		lineageTag: 69d3a626-8f0a-4f3e-9875-36600d74ee7e
+
+	/// Soma de abstenções em uma única eleição (ano/turno).
+	measure 'Abstencoes (total)' =
+			IF (
+			    HASONEVALUE ( mart_participacao_zona[ano] ) && HASONEVALUE ( mart_participacao_zona[turno] ),
+			    SUM ( mart_participacao_zona[abstencoes] )
+			)
+		formatString: #,0
+		displayFolder: Contagens
+		lineageTag: 3b676569-fdee-486c-ae28-17a10b4dd884
+
+	/// Soma de abstenções / soma de eleitorado apto (ponderada; nunca média das taxas das zonas).
+	measure 'Taxa de abstencao' = DIVIDE ( [Abstencoes (total)], [Eleitorado apto (total)] )
+		formatString: 0.0%
+		displayFolder: Taxas
+		lineageTag: f29579e0-6ec3-4156-903e-cb0f490da198
+
+	/// Soma de comparecimento / soma de eleitorado apto.
+	measure 'Taxa de comparecimento' = DIVIDE ( [Comparecimento (total)], [Eleitorado apto (total)] )
+		formatString: 0.0%
+		displayFolder: Taxas
+		lineageTag: f6d59936-4fe8-478a-9721-3257d450b669
+
+	/// Taxa do DF inteiro em 2018 no turno do contexto. Ignora filtro de zona: comparação entre anos só no agregado do DF.
+	measure 'Taxa de abstencao DF 2018' =
+			CALCULATE (
+			    [Taxa de abstencao],
+			    REMOVEFILTERS ( mart_participacao_zona[zona] ),
+			    mart_participacao_zona[ano] = 2018
+			)
+		formatString: 0.0%
+		displayFolder: Comparacao DF
+		lineageTag: e08c9e54-a47e-42df-9abd-3934a1a1bed3
+
+	/// Taxa do DF inteiro em 2022 no turno do contexto. Ignora filtro de zona.
+	measure 'Taxa de abstencao DF 2022' =
+			CALCULATE (
+			    [Taxa de abstencao],
+			    REMOVEFILTERS ( mart_participacao_zona[zona] ),
+			    mart_participacao_zona[ano] = 2022
+			)
+		formatString: 0.0%
+		displayFolder: Comparacao DF
+		lineageTag: a4e56d6a-488e-4d71-a21d-5914ca9e747a
+
+	/// (taxa 2022 - taxa 2018) * 100, em pontos percentuais, para o DF inteiro no turno do contexto.
+	measure 'Variacao abstencao DF (p.p.)' = ( [Taxa de abstencao DF 2022] - [Taxa de abstencao DF 2018] ) * 100
+		formatString: +0.00 p\.p\.;-0.00 p\.p\.;0.00 p\.p\.
+		displayFolder: Comparacao DF
+		lineageTag: 8a401e06-41cd-432f-a218-34533dd8ee4c
+
+	/// Abstenções da zona / abstenções do DF na mesma eleição. Válida só dentro de uma eleição.
+	measure 'Participacao nas abstencoes do DF' =
+			DIVIDE (
+			    [Abstencoes (total)],
+			    CALCULATE ( [Abstencoes (total)], REMOVEFILTERS ( mart_participacao_zona[zona] ) )
+			)
+		formatString: 0.0%
+		displayFolder: Zonas
+		lineageTag: 60b48a40-b99e-4169-aa06-4da4dd151f97
+
+	column ano
+		dataType: int64
+		lineageTag: 88a5e5ad-52b4-41a7-979b-ea381969f844
+		summarizeBy: none
+		sourceColumn: ano
+
+	column turno
+		dataType: int64
+		lineageTag: bc9032a4-2572-4ea7-8dbf-cbf3f19f7806
+		summarizeBy: none
+		sourceColumn: turno
+
+	/// Identificador textual da zona; não comprova continuidade territorial entre anos.
+	column zona
+		dataType: string
+		lineageTag: 94c6036c-b7ab-4d70-9c3e-f61a84b7decb
+		summarizeBy: none
+		sourceColumn: zona
+
+	column eleitorado_apto
+		dataType: int64
+		formatString: #,0
+		lineageTag: 399625eb-85e1-4521-b0cb-633c647f42cf
+		summarizeBy: sum
+		sourceColumn: eleitorado_apto
+
+	column comparecimento
+		dataType: int64
+		formatString: #,0
+		lineageTag: 37cefe84-a863-4473-b783-117e9a6e5b39
+		summarizeBy: sum
+		sourceColumn: comparecimento
+
+	column abstencoes
+		dataType: int64
+		formatString: #,0
+		lineageTag: dced9087-45a7-4de6-8cfc-7f2ab55ad271
+		summarizeBy: sum
+		sourceColumn: abstencoes
+
+	/// Taxa da linha; para agregados use as medidas.
+	column taxa_comparecimento
+		dataType: double
+		isHidden
+		formatString: 0.0%
+		lineageTag: 016dd3ab-d25e-475c-8555-bea75897b966
+		summarizeBy: none
+		sourceColumn: taxa_comparecimento
+
+	/// Taxa da linha; para agregados use as medidas.
+	column taxa_abstencao
+		dataType: double
+		isHidden
+		formatString: 0.0%
+		lineageTag: f9db046a-7449-4790-949c-39d04e70fc6b
+		summarizeBy: none
+		sourceColumn: taxa_abstencao
+
+	column chave_zona_eleicao_turno
+		dataType: string
+		isHidden
+		lineageTag: d0c63748-8698-431e-8485-4625d555c52b
+		summarizeBy: none
+		sourceColumn: chave_zona_eleicao_turno
+
+	/// Rótulo do turno para eixos ("1º turno", "2º turno"), ordenado por turno.
+	column turno_rotulo = FORMAT ( mart_participacao_zona[turno], "0" ) & "º turno"
+		dataType: string
+		lineageTag: 5b8e2c1a-7d4f-4e6b-9a3c-2f1e8d7c6b5a
+		summarizeBy: none
+		sortByColumn: turno
+
+	partition mart_participacao_zona = m
+		mode: import
+		source =
+				let
+				    Fonte = GoogleBigQuery.Database([BillingProject = "eleitorado", UseStorageApi = false]),
+				    Projeto = Fonte{[Name = "eleitorado"]}[Data],
+				    Dataset = Projeto{[Name = "eleicoes_em_dados", Kind = "Schema"]}[Data],
+				    Mart = Dataset{[Name = "mart_participacao_zona", Kind = "Table"]}[Data],
+				    Colunas = Table.SelectColumns(Mart, {"ano", "turno", "zona", "eleitorado_apto", "comparecimento", "abstencoes", "taxa_comparecimento", "taxa_abstencao", "chave_zona_eleicao_turno"}),
+				    Tipos = Table.TransformColumnTypes(Colunas, {{"ano", Int64.Type}, {"turno", Int64.Type}, {"zona", type text}, {"eleitorado_apto", Int64.Type}, {"comparecimento", Int64.Type}, {"abstencoes", Int64.Type}, {"taxa_comparecimento", type number}, {"taxa_abstencao", type number}, {"chave_zona_eleicao_turno", type text}})
+				in
+				    Tipos
+

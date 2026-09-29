@@ -1,0 +1,89 @@
+{
+  "todas_colunas": {
+    "sql": "SELECT * FROM `basedosdados.br_tse_eleicoes.detalhes_votacao_municipio_zona` WHERE ano IN (2018,2022) AND sigla_uf='DF' AND cargo='presidente' AND tipo_eleicao='eleicao ordinaria' AND turno IN (1,2) ORDER BY ano,turno,zona",
+    "estimated_bytes": 17180996,
+    "estimate_sql": "SELECT * FROM `basedosdados.br_tse_eleicoes.detalhes_votacao_municipio_zona` WHERE ano IN (2018,2022) AND sigla_uf='DF' AND cargo='presidente' AND tipo_eleicao='eleicao ordinaria' AND turno IN (1,2) ORDER BY ano,turno,zona",
+    "processed_bytes": 17180996,
+    "billed_bytes": 17825792,
+    "cache_hit": false,
+    "job_id": "75ca65e8-9bbe-4cd2-b5d9-69babf97a32f",
+    "row_count": 76
+  },
+  "colunas_necessarias": {
+    "sql": "SELECT ano,turno,zona,aptos,comparecimento,abstencoes FROM `basedosdados.br_tse_eleicoes.detalhes_votacao_municipio_zona` WHERE ano IN (2018,2022) AND sigla_uf='DF' AND cargo='presidente' AND tipo_eleicao='eleicao ordinaria' AND turno IN (1,2) ORDER BY ano,turno,zona",
+    "estimated_bytes": 6500065,
+    "estimate_sql": "SELECT ano,turno,zona,aptos,comparecimento,abstencoes FROM `basedosdados.br_tse_eleicoes.detalhes_votacao_municipio_zona` WHERE ano IN (2018,2022) AND sigla_uf='DF' AND cargo='presidente' AND tipo_eleicao='eleicao ordinaria' AND turno IN (1,2) ORDER BY ano,turno,zona",
+    "processed_bytes": 6500065,
+    "billed_bytes": 10485760,
+    "cache_hit": false,
+    "job_id": "b905b2af-c2b1-4427-9c94-9cdfa80dd9db",
+    "row_count": 76
+  },
+  "criar_simples": {
+    "sql": "CREATE OR REPLACE TABLE `eleitorado.eleicoes_em_dados.lab_benchmark_simples`  OPTIONS(expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 24 HOUR)) AS SELECT ano, turno, zona, eleitorado_apto, comparecimento, abstencoes FROM `eleitorado.eleicoes_em_dados.mart_participacao_zona`",
+    "estimated_bytes": 3312,
+    "estimate_sql": "SELECT ano, turno, zona, eleitorado_apto, comparecimento, abstencoes FROM `eleitorado.eleicoes_em_dados.mart_participacao_zona`",
+    "processed_bytes": 3312,
+    "billed_bytes": 10485760,
+    "cache_hit": false,
+    "job_id": "7c8f15f9-1015-4984-8ab6-c0ac3447f1d8",
+    "row_count": 0
+  },
+  "consultar_simples": {
+    "sql": "SELECT ano, turno, zona, eleitorado_apto, abstencoes FROM `eleitorado.eleicoes_em_dados.lab_benchmark_simples` WHERE ano=2022 AND zona='1' ORDER BY turno",
+    "estimated_bytes": 2704,
+    "estimate_sql": "SELECT ano, turno, zona, eleitorado_apto, abstencoes FROM `eleitorado.eleicoes_em_dados.lab_benchmark_simples` WHERE ano=2022 AND zona='1' ORDER BY turno",
+    "processed_bytes": 2704,
+    "billed_bytes": 10485760,
+    "cache_hit": false,
+    "job_id": "41018088-1ed3-432b-9e4e-2854c8cb297f",
+    "row_count": 2
+  },
+  "criar_particionada": {
+    "sql": "CREATE OR REPLACE TABLE `eleitorado.eleicoes_em_dados.lab_benchmark_particionada` PARTITION BY RANGE_BUCKET(ano, GENERATE_ARRAY(2018,2024,2)) OPTIONS(expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 24 HOUR)) AS SELECT ano, turno, zona, eleitorado_apto, comparecimento, abstencoes FROM `eleitorado.eleicoes_em_dados.mart_participacao_zona`",
+    "estimated_bytes": 3312,
+    "estimate_sql": "SELECT ano, turno, zona, eleitorado_apto, comparecimento, abstencoes FROM `eleitorado.eleicoes_em_dados.mart_participacao_zona`",
+    "processed_bytes": 3312,
+    "billed_bytes": 10485760,
+    "cache_hit": false,
+    "job_id": "54935520-2287-4851-92c5-67b733f392ad",
+    "row_count": 0
+  },
+  "consultar_particionada": {
+    "sql": "SELECT ano, turno, zona, eleitorado_apto, abstencoes FROM `eleitorado.eleicoes_em_dados.lab_benchmark_particionada` WHERE ano=2022 AND zona='1' ORDER BY turno",
+    "estimated_bytes": 1352,
+    "estimate_sql": "SELECT ano, turno, zona, eleitorado_apto, abstencoes FROM `eleitorado.eleicoes_em_dados.lab_benchmark_particionada` WHERE ano=2022 AND zona='1' ORDER BY turno",
+    "processed_bytes": 1352,
+    "billed_bytes": 10485760,
+    "cache_hit": false,
+    "job_id": "40830a4b-ac9d-4217-aa5b-f7a093ab8f0b",
+    "row_count": 2
+  },
+  "criar_clusterizada": {
+    "sql": "CREATE OR REPLACE TABLE `eleitorado.eleicoes_em_dados.lab_benchmark_clusterizada` CLUSTER BY zona OPTIONS(expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 24 HOUR)) AS SELECT ano, turno, zona, eleitorado_apto, comparecimento, abstencoes FROM `eleitorado.eleicoes_em_dados.mart_participacao_zona`",
+    "estimated_bytes": 3312,
+    "estimate_sql": "SELECT ano, turno, zona, eleitorado_apto, comparecimento, abstencoes FROM `eleitorado.eleicoes_em_dados.mart_participacao_zona`",
+    "processed_bytes": 3312,
+    "billed_bytes": 10485760,
+    "cache_hit": false,
+    "job_id": "16fe4192-2371-4d12-a959-ecbaeb7b85b1",
+    "row_count": 0
+  },
+  "consultar_clusterizada": {
+    "sql": "SELECT ano, turno, zona, eleitorado_apto, abstencoes FROM `eleitorado.eleicoes_em_dados.lab_benchmark_clusterizada` WHERE ano=2022 AND zona='1' ORDER BY turno",
+    "estimated_bytes": 2704,
+    "estimate_sql": "SELECT ano, turno, zona, eleitorado_apto, abstencoes FROM `eleitorado.eleicoes_em_dados.lab_benchmark_clusterizada` WHERE ano=2022 AND zona='1' ORDER BY turno",
+    "processed_bytes": 2704,
+    "billed_bytes": 10485760,
+    "cache_hit": false,
+    "job_id": "87428756-3ad3-4449-b09d-4a398f5c11c2",
+    "row_count": 2
+  },
+  "validation": {
+    "projection_equal": true,
+    "physical_variants_equal": true,
+    "source_rows": 76,
+    "lab_rows_per_table": 76,
+    "note": "Proje\u00e7\u00e3o compara resultados ap\u00f3s selecionar as mesmas colunas. Variantes f\u00edsicas retornam exatamente o mesmo resultado. Cria\u00e7\u00e3o das tabelas tamb\u00e9m est\u00e1 registrada."
+  }
+}

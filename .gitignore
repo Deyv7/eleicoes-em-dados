@@ -1,0 +1,24 @@
+# Credenciais — nunca versionar
+profiles.yml
+*.json.key
+*-key.json
+service-account*.json
+.env
+
+# dbt
+target/
+dbt_packages/
+logs/
+
+# Python
+.venv/
+venv/
+__pycache__/
+
+# Configuração local e artefatos de execução
+.local/
+*.log
+
+# Power BI: caches e preferências locais; a entrega oficial é PBIP/PBIR/TMDL
+**/.pbi/
+dashboard/eleicoes-em-dados.pbix

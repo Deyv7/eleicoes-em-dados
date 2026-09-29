@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-09-29T15:16:29.584520Z",
+  "models": [
+    "model.eleicoes_em_dados.int_comparecimento_presidente",
+    "model.eleicoes_em_dados.mart_participacao_zona",
+    "model.eleicoes_em_dados.stg_tse__detalhes_votacao"
+  ],
+  "mart_columns": [
+    "ano",
+    "turno",
+    "zona",
+    "sigla_uf",
+    "cargo",
+    "tipo_eleicao",
+    "id_eleicao",
+    "id_municipio_tse",
+    "eleitorado_apto",
+    "comparecimento",
+    "abstencoes",
+    "taxa_comparecimento",
+    "taxa_abstencao",
+    "chave_zona_eleicao_turno"
+  ],
+  "errors": null,
+  "warning": "Aviso agate table_owner ausente; catalogo gerado e conferido."
+}

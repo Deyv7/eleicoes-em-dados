@@ -1,0 +1,13 @@
+eleicoes_em_dados:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: "{{ env_var('BIGQUERY_PROJECT', 'eleitorado') }}"
+      dataset: "{{ env_var('DBT_DATASET', 'eleicoes_em_dados') }}"
+      location: US
+      threads: 1
+      maximum_bytes_billed: 100000000
+      job_execution_timeout_seconds: 120
+      job_retries: 0

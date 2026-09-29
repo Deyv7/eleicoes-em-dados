@@ -1,0 +1,35 @@
+{
+  "table": "eleitorado.eleicoes_em_dados_verificacao.mart_participacao_zona",
+  "rows": 76,
+  "status": "passed",
+  "checks": [
+    "coverage",
+    "unique_key",
+    "required_counts",
+    "nonnegative_counts",
+    "source_row_equality",
+    "reconciliation",
+    "rates",
+    "fixed_domains"
+  ],
+  "schema": {
+    "ano": "INTEGER",
+    "turno": "INTEGER",
+    "zona": "STRING",
+    "sigla_uf": "STRING",
+    "cargo": "STRING",
+    "tipo_eleicao": "STRING",
+    "id_eleicao": "STRING",
+    "id_municipio_tse": "STRING",
+    "eleitorado_apto": "INTEGER",
+    "comparecimento": "INTEGER",
+    "abstencoes": "INTEGER",
+    "taxa_comparecimento": "FLOAT",
+    "taxa_abstencao": "FLOAT",
+    "chave_zona_eleicao_turno": "STRING"
+  },
+  "estimated_bytes": 8904,
+  "processed_bytes": 8904,
+  "job_id": "0691cbcc-d1e5-495f-a45b-1456bba66d4a",
+  "expires": "2026-11-28 15:15:27.303000+00:00"
+}

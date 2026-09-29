@@ -1,0 +1,116 @@
+cultureInfo pt-BR
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "mart_participacao_zona.zona": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "mart_participacao_zona",
+			          "ConceptualProperty": "zona"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Zona": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_participacao_zona.eleitorado_apto_total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "mart_participacao_zona",
+			          "ConceptualProperty": "Eleitorado apto (total)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Eleitorado apto": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_participacao_zona.abstencoes_total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "mart_participacao_zona",
+			          "ConceptualProperty": "Abstencoes (total)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Abstenções": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_participacao_zona.taxa_de_abstencao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "mart_participacao_zona",
+			          "ConceptualProperty": "Taxa de abstencao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Taxa": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_participacao_zona.participacao_nas_abstencoes_do_df": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "mart_participacao_zona",
+			          "ConceptualProperty": "Participacao nas abstencoes do DF"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Participação no DF": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

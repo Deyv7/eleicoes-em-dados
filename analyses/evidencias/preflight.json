@@ -1,0 +1,122 @@
+[
+  {
+    "node": "model.eleicoes_em_dados.int_comparecimento_presidente",
+    "estimated_bytes": 7457329
+  },
+  {
+    "node": "model.eleicoes_em_dados.stg_tse__detalhes_votacao",
+    "estimated_bytes": 7457329
+  },
+  {
+    "node": "model.eleicoes_em_dados.mart_participacao_zona",
+    "estimated_bytes": 7457329
+  },
+  {
+    "node": "test.eleicoes_em_dados.t05_conciliacao_linha",
+    "estimated_bytes": 6500065
+  },
+  {
+    "node": "test.eleicoes_em_dados.t04_quatro_eleicoes_completas",
+    "estimated_bytes": 4569433
+  },
+  {
+    "node": "test.eleicoes_em_dados.t06_limites_contagens",
+    "estimated_bytes": 6500065
+  },
+  {
+    "node": "test.eleicoes_em_dados.t02_chave_natural",
+    "estimated_bytes": 4569433
+  },
+  {
+    "node": "test.eleicoes_em_dados.t09_linhas_vs_fonte",
+    "estimated_bytes": 6500065
+  },
+  {
+    "node": "test.eleicoes_em_dados.t01_campos_obrigatorios_nao_nulos",
+    "estimated_bytes": 7457329
+  },
+  {
+    "node": "test.eleicoes_em_dados.t03_dominios_recorte",
+    "estimated_bytes": 7457329
+  },
+  {
+    "node": "test.eleicoes_em_dados.t07_taxas",
+    "estimated_bytes": 6500065
+  },
+  {
+    "node": "test.eleicoes_em_dados.t08_totais_referencia",
+    "estimated_bytes": 6157108
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_ano.6af99697a7",
+    "estimated_bytes": 0
+  },
+  {
+    "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_ano__False__2018__2022.3e5cae42ef",
+    "estimated_bytes": 4226476
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_turno.216bb78132",
+    "estimated_bytes": 4226476
+  },
+  {
+    "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_turno__False__1__2.cf55e482cd",
+    "estimated_bytes": 4226476
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_zona.7b21b83fda",
+    "estimated_bytes": 4569433
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_sigla_uf.b1052d6e1d",
+    "estimated_bytes": 4226476
+  },
+  {
+    "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_sigla_uf__DF.30cfcf6623",
+    "estimated_bytes": 4226476
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_cargo.e3f15f28a5",
+    "estimated_bytes": 4226476
+  },
+  {
+    "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_cargo__presidente.09d64e9155",
+    "estimated_bytes": 4226476
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_tipo_eleicao.f9f2715025",
+    "estimated_bytes": 4226476
+  },
+  {
+    "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_tipo_eleicao__eleicao_ordinaria.749569b2d2",
+    "estimated_bytes": 4226476
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_id_eleicao.14e5d20678",
+    "estimated_bytes": 4628691
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_id_municipio_tse.8392b19c67",
+    "estimated_bytes": 4781525
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_eleitorado_apto.992c213a03",
+    "estimated_bytes": 4870020
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_comparecimento.4773e4a7f8",
+    "estimated_bytes": 4870020
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_abstencoes.da51a19a17",
+    "estimated_bytes": 4870020
+  },
+  {
+    "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_chave_zona_eleicao_turno.7425156bda",
+    "estimated_bytes": 4569433
+  },
+  {
+    "node": "test.eleicoes_em_dados.unique_mart_participacao_zona_chave_zona_eleicao_turno.4af175dcc6",
+    "estimated_bytes": 4569433
+  }
+]

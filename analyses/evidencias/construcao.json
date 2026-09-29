@@ -1,0 +1,362 @@
+{
+  "generated_at": "2026-09-29T15:12:34.792858Z",
+  "dbt_version": "1.12.5",
+  "elapsed_time": 56.786137342453,
+  "results": [
+    {
+      "node": "model.eleicoes_em_dados.stg_tse__detalhes_votacao",
+      "status": "success",
+      "execution_time": 3.124290704727173,
+      "adapter_response": {
+        "_message": "CREATE VIEW (0 processed)",
+        "code": "CREATE VIEW",
+        "bytes_processed": 0,
+        "bytes_billed": 0,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "0a0deb18-337d-4a50-bd86-627cd7277c3b",
+        "slot_ms": 0
+      },
+      "failures": null
+    },
+    {
+      "node": "model.eleicoes_em_dados.int_comparecimento_presidente",
+      "status": "success",
+      "execution_time": 3.2714669704437256,
+      "adapter_response": {
+        "_message": "CREATE VIEW (0 processed)",
+        "code": "CREATE VIEW",
+        "bytes_processed": 0,
+        "bytes_billed": 0,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "9581f37b-bc2b-4fa8-b595-0c77ee4bfa89",
+        "slot_ms": 0
+      },
+      "failures": null
+    },
+    {
+      "node": "model.eleicoes_em_dados.mart_participacao_zona",
+      "status": "success",
+      "execution_time": 6.124211549758911,
+      "adapter_response": {
+        "_message": "CREATE TABLE (76.0 rows, 7.1 MiB processed)",
+        "code": "CREATE TABLE",
+        "rows_affected": 76,
+        "bytes_processed": 7457329,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "b2901128-72b4-4a23-9dc2-0fa23c93db0a",
+        "slot_ms": 755
+      },
+      "failures": null
+    },
+    {
+      "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_ano__False__2018__2022.3e5cae42ef",
+      "status": "pass",
+      "execution_time": 2.337066411972046,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 608.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 608,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "88e92038-cb08-4f64-be99-33faedd89e47",
+        "slot_ms": 18
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_cargo__presidente.09d64e9155",
+      "status": "pass",
+      "execution_time": 2.0078725814819336,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 912.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 912,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "b099a53b-582d-4b8c-9446-bc66f5ed1a68",
+        "slot_ms": 11
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_sigla_uf__DF.30cfcf6623",
+      "status": "pass",
+      "execution_time": 2.0762650966644287,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 304.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 304,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "9fe08011-3774-4fbf-a1c5-9f9084158374",
+        "slot_ms": 13
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_tipo_eleicao__eleicao_ordinaria.749569b2d2",
+      "status": "pass",
+      "execution_time": 2.5527803897857666,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 1.4 KiB processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 1444,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "06347ae8-3e89-47e9-9cd1-b85ea51d9b9a",
+        "slot_ms": 23
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.accepted_values_mart_participacao_zona_turno__False__1__2.cf55e482cd",
+      "status": "pass",
+      "execution_time": 2.3314218521118164,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 608.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 608,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "d871338a-7aca-4652-aeab-0cd632baa033",
+        "slot_ms": 15
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_abstencoes.da51a19a17",
+      "status": "pass",
+      "execution_time": 2.007882595062256,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 608.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 608,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "ca692065-9d75-4160-bac8-ac3a044d8085",
+        "slot_ms": 14
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_ano.6af99697a7",
+      "status": "pass",
+      "execution_time": 2.016112804412842,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 608.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 608,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "546eaa2b-bc10-4a46-8f51-1ba0069d8c5c",
+        "slot_ms": 16
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_cargo.e3f15f28a5",
+      "status": "pass",
+      "execution_time": 3.011167526245117,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 912.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 912,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "36f1163e-2258-4224-8dee-7062c0b5e79a",
+        "slot_ms": 9
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_chave_zona_eleicao_turno.7425156bda",
+      "status": "pass",
+      "execution_time": 2.1850717067718506,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 804.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 804,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "0bc1e8f5-4c06-4f5b-b06d-f074f55ec151",
+        "slot_ms": 27
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_comparecimento.4773e4a7f8",
+      "status": "pass",
+      "execution_time": 2.205953598022461,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 608.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 608,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "1196f72b-a41a-46fd-983d-080c063265f4",
+        "slot_ms": 18
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_eleitorado_apto.992c213a03",
+      "status": "pass",
+      "execution_time": 2.6844263076782227,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 608.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 608,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "53c356ef-6600-470b-b16e-d082ec8a6364",
+        "slot_ms": 23
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_id_eleicao.14e5d20678",
+      "status": "pass",
+      "execution_time": 2.057080030441284,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 380.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 380,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "51b3b9a5-8eeb-4337-add0-5f9a666f6441",
+        "slot_ms": 15
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_id_municipio_tse.8392b19c67",
+      "status": "pass",
+      "execution_time": 2.1663386821746826,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 532.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 532,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "68e4921e-d62b-43d2-b607-e82c55bc738e",
+        "slot_ms": 20
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_sigla_uf.b1052d6e1d",
+      "status": "pass",
+      "execution_time": 2.2254607677459717,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 304.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 304,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "7a707dc3-ddd6-4cf9-9423-2c074aea1270",
+        "slot_ms": 17
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_tipo_eleicao.f9f2715025",
+      "status": "pass",
+      "execution_time": 1.9251713752746582,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 1.4 KiB processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 1444,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "c6b4e5b3-26cd-4fed-b07c-eed7ee506074",
+        "slot_ms": 13
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_turno.216bb78132",
+      "status": "pass",
+      "execution_time": 1.835878610610962,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 608.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 608,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "8b54a9e1-f42c-49bf-bebb-ee2c359a7799",
+        "slot_ms": 21
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.not_null_mart_participacao_zona_zona.7b21b83fda",
+      "status": "pass",
+      "execution_time": 2.3057360649108887,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 272.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 272,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "e87d19c0-dd71-442e-970a-8833b7c62fd1",
+        "slot_ms": 21
+      },
+      "failures": 0
+    },
+    {
+      "node": "test.eleicoes_em_dados.unique_mart_participacao_zona_chave_zona_eleicao_turno.4af175dcc6",
+      "status": "pass",
+      "execution_time": 1.7422754764556885,
+      "adapter_response": {
+        "_message": "SELECT (1.0 rows, 804.0 Bytes processed)",
+        "code": "SELECT",
+        "rows_affected": 1,
+        "bytes_processed": 804,
+        "bytes_billed": 10485760,
+        "location": "US",
+        "project_id": "eleitorado",
+        "job_id": "88547f7d-17db-413a-9749-1672813b65bd",
+        "slot_ms": 10
+      },
+      "failures": 0
+    }
+  ]
+}
